@@ -1,0 +1,73 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<h2>Gestão de Estoque</h2>
+
+<div class="card">
+    <h3>Registrar Movimentação</h3>
+    <form action="{{ url_for('estoque_movimentar') }}" method="POST" class="form-inline">
+        <div class="form-group">
+            <label for="produto_id">Produto</label>
+            <select id="produto_id" name="produto_id" required>
+                <option value="" disabled selected>Selecione um equipamento</option>
+                {% for p in produtos %}
+                <option value="{{ p['id'] }}">{{ p['nome'] }} ({{ p['variacao'] }})</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="tipo">Tipo</label>
+            <select id="tipo" name="tipo" required>
+                <option value="Entrada">Entrada</option>
+                <option value="Saida">Saída</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="quantidade">Quantidade</label>
+            <input type="number" id="quantidade" name="quantidade" min="1" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Registrar</button>
+    </form>
+</div>
+
+<div class="card">
+    <h3>Níveis de Estoque</h3>
+    <table class="tabela-dados">
+        <thead>
+            <tr>
+                <th>Equipamento (Ordenado Alfabeticamente) </th>
+                <th>Variação</th>
+                <th>Qtd. Atual</th>
+                <th>Est. Mínimo</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for produto in produtos %}
+            {% set status_class = '' %}
+            {% set status_text = 'OK' %}
+            
+            {% if produto['quantidade_atual'] == 0 %}
+                {% set status_class = 'status-critico' %}
+                {% set status_text = 'Esgotado' %}
+            {% elif produto['quantidade_atual'] <= produto['estoque_minimo'] %}
+                {% set status_class = 'status-alerta' %}
+                {% set status_text = 'Abaixo do Mínimo!' %}
+            {% endif %}
+            
+            <tr class="{% if status_class %}alerta-estoque-visual{% endif %}">
+                <td>{{ produto['nome'] }}</td>
+                <td>{{ produto['variacao'] }}</td>
+                <td>{{ produto['quantidade_atual'] }}</td>
+                <td>{{ produto['estoque_minimo'] }}</td>
+                <td class="{{ status_class }}"><strong>{{ status_text }}</strong></td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="5">Nenhum produto para exibir.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="card">
+    <h2>Interface Principal</h2>
+    <p>Bem-vindo ao Sistema de Gestão de Estoque de Equipamentos Eletrônicos.</p>
+    <p>Utilize a navegação acima para gerenciar produtos ou registrar movimentações de estoque.</p>
+    <div class="quick-links">
+        <a href="{{ url_for('produtos') }}" class="btn btn-secondary">Gerenciar Produtos</a>
+        <a href="{{ url_for('estoque') }}" class="btn btn-secondary">Gestão de Estoque</a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,167 @@
+/* Reset Básico e Definições Globais */
+:root {
+    --cor-primaria: #005A9C;
+    --cor-secundaria: #E6E6E6;
+    --cor-fundo: #F4F7FA;
+    --cor-texto: #333;
+    --cor-alerta: #FFF3CD;
+    --cor-alerta-texto: #664d03;
+    --cor-critico: #F8D7DA;
+    --cor-critico-texto: #842029;
+    --cor-sucesso: #D4EDDA;
+    --cor-sucesso-texto: #155724;
+    --sombra: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background-color: var(--cor-fundo);
+    color: var(--cor-texto);
+    margin: 0;
+    padding-top: 70px; /* Espaço para a navbar fixa */
+}
+
+/* Navbar [cite: 42, 43] */
+.navbar {
+    background-color: var(--cor-primaria);
+    color: white;
+    padding: 0 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 60px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    box-shadow: var(--sombra);
+}
+.navbar-brand { font-size: 1.5rem; font-weight: bold; }
+.navbar-links a { color: white; text-decoration: none; padding: 0 1rem; font-weight: 500; }
+.navbar-links a:hover { text-decoration: underline; }
+.navbar-user { display: flex; align-items: center; }
+.navbar-user span { margin-right: 1rem; }
+
+/* Botões */
+.btn {
+    padding: 0.6rem 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    display: inline-block;
+}
+.btn-primary { background-color: var(--cor-primaria); color: white; }
+.btn-primary:hover { background-color: #004a80; }
+.btn-secondary { background-color: #6C757D; color: white; }
+.btn-danger { background-color: #DC3545; color: white; }
+.btn-logout { background-color: #FFC107; color: var(--cor-texto); }
+
+/* Container Principal */
+.container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+/* Cards (Estrutura principal das telas) */
+.card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: var(--sombra);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--cor-secundaria);
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+}
+.card-header h3 { margin: 0; }
+
+/* Formulários */
+.form-group { margin-bottom: 1rem; }
+.form-group label { display: block; margin-bottom: 0.5rem; font-weight: 500; }
+.form-group input[type="text"],
+.form-group input[type="password"],
+.form-group input[type="number"],
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    padding: 0.7rem;
+    border: 1px solid #CCC;
+    border-radius: 4px;
+    box-sizing: border-box; /* Garante que padding não afete a largura */
+}
+.form-inline { display: flex; flex-wrap: wrap; gap: 1rem; align-items: flex-end; }
+.form-inline .form-group { flex: 1; margin-bottom: 0; }
+.form-inline .btn { flex-shrink: 0; }
+
+/* Tela de Login  */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 100px);
+}
+.login-container .card { width: 100%; max-width: 400px; }
+
+/* Alertas [cite: 36, 52, 61] */
+.alerts { margin-bottom: 1rem; }
+.alert {
+    padding: 1rem;
+    border-radius: 4px;
+    margin-bottom: 0.5rem;
+    border: 1px solid transparent;
+}
+.alert-danger { background-color: var(--cor-critico); color: var(--cor-critico-texto); border-color: #f5c6cb; }
+.alert-success { background-color: var(--cor-sucesso); color: var(--cor-sucesso-texto); border-color: #c3e6cb; }
+.alert-info { background-color: #D1ECF1; color: #0c5460; border-color: #bee5eb; }
+
+/* Tabelas  */
+.tabela-dados { width: 100%; border-collapse: collapse; }
+.tabela-dados th, .tabela-dados td {
+    padding: 0.75rem;
+    border-bottom: 1px solid var(--cor-secundaria);
+    text-align: left;
+}
+.tabela-dados th { background-color: #F8F9FA; }
+.tabela-dados .acoes { display: flex; gap: 0.5rem; }
+
+/* Status de Estoque [cite: 61] */
+.status-alerta { color: var(--cor-alerta-texto); font-weight: bold; }
+.status-critico { color: var(--cor-critico-texto); font-weight: bold; }
+.alerta-estoque-visual { background-color: var(--cor-alerta); }
+.alerta-estoque-visual:nth-child(even) { background-color: #fff9e8; }
+tr.alerta-estoque-visual td.status-critico { background-color: var(--cor-critico) !important; color: var(--cor-critico-texto); }
+
+/* Modal (Para Edição/Cadastro de Produto) */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    overflow: auto;
+    justify-content: center;
+    align-items: center;
+}
+.modal-content {
+    margin: 5% auto;
+    max-width: 600px;
+    position: relative;
+}
+.close-modal {
+    position: absolute;
+    top: 10px; right: 20px;
+    font-size: 2rem;
+    cursor: pointer;
+    color: #AAA;
+}

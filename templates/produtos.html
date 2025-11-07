@@ -1,0 +1,85 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<h2>Cadastro de Produtos</h2>
+
+<div class="card search-bar">
+    <form method="GET" action="{{ url_for('produtos') }}">
+        <input type="text" name="search" placeholder="Buscar por notebook, smartphone, TV..." value="{{ search_query }}">
+        <button type="submit" class="btn btn-secondary">Buscar</button>
+    </form>
+</div>
+
+<div id="modal-produto" class="modal">
+    <div class="modal-content card">
+        <span class="close-modal" onclick="fecharModal('modal-produto')">&times;</span>
+        <h3 id="modal-titulo">Cadastrar Novo Produto</h3>
+        <form id="form-produto" method="POST">
+            <input type="hidden" name="id" id="produto-id">
+            <div class="form-group">
+                <label for="nome">Nome</label>
+                <input type="text" id="nome" name="nome" required> </div>
+            <div class="form-group">
+                <label for="variacao">Variação (Ex: 16GB RAM, 128GB, Preto) </label>
+                <input type="text" id="variacao" name="variacao" required> </div>
+            <div class="form-group">
+                <label for="descricao">Descrição</label>
+                <textarea id="descricao" name="descricao" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="estoque_minimo">Estoque Mínimo </label>
+                <input type="number" id="estoque_minimo" name="estoque_minimo" value="1" min="0" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Salvar</button>
+        </form>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h3>Produtos Cadastrados</h3>
+        <button class="btn btn-primary" onclick="abrirModalNovo()">Novo Produto</button>
+    </div>
+    
+    <table class="tabela-dados">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Variação</th>
+                <th>Descrição</th>
+                <th>Est. Mínimo</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for produto in produtos %}
+            <tr>
+                <td>{{ produto['id'] }}</td>
+                <td>{{ produto['nome'] }}</td>
+                <td>{{ produto['variacao'] }}</td>
+                <td>{{ produto['descricao'] }}</td>
+                <td>{{ produto['estoque_minimo'] }}</td>
+                <td class="acoes">
+                    <button class="btn btn-secondary" onclick="abrirModalEditar(
+                        '{{ produto['id'] }}', 
+                        '{{ produto['nome'] }}', 
+                        '{{ produto['variacao'] }}', 
+                        '{{ produto['descricao'] }}',
+                        '{{ produto['estoque_minimo'] }}'
+                    )">Editar</button>
+                    
+                    <form action="{{ url_for('produto_excluir', id=produto['id']) }}" method="POST" style="display: inline;" onsubmit="return confirm('Tem certeza que deseja excluir?');">
+                        <button type="submit" class="btn btn-danger">Excluir</button>
+                    </form>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="6">Nenhum produto encontrado.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

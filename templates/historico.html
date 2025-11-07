@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="card">
+    <h2>Histórico Completo de Movimentações</h2>
+    <p>Aqui está o registro de todas as operações de entrada e saída, incluindo o responsável e a data.</p>
+    
+    <table class="tabela-dados">
+        <thead>
+            <tr>
+                <th>Data e Hora</th>
+                <th>Produto</th>
+                <th>Variação</th>
+                <th>Responsável</th>
+                <th>Tipo</th>
+                <th>Quantidade</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for m in movimentacoes %}
+            <tr>
+                <td>{{ m['data_hora'] }}</td>
+                <td>{{ m['produto_nome'] }}</td>
+                <td>{{ m['variacao'] }}</td>
+                <td>{{ m['usuario_nome'] }}</td>
+                <td>{{ m['tipo'] }}</td>
+                <td>{{ m['quantidade'] }}</td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="6">Nenhuma movimentação registrada ainda.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
